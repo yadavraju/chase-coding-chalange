@@ -26,9 +26,9 @@ data class CurrentWeatherViewDataModel(
     val currentIcon: String
 ) : ViewDataModel()
 
+// I can add test for this mapper class to for coding challenge skipping this for now
 class CurrentWeatherMapper @Inject constructor(
-    @ApplicationContext
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : ModelMapper<CurrentWeather, CurrentWeatherViewDataModel> {
 
     override fun mapperToViewDataModel(dataModel: CurrentWeather): CurrentWeatherViewDataModel {

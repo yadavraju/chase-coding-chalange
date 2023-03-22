@@ -28,7 +28,7 @@ sealed class BaseException(
     ) : BaseException(code, ExceptionType.REDIRECT, null)
 
     data class SnackBarException(
-        override val code: Int,
+        override val code: Int = -1,
         override val message: String
     ) : BaseException(code, ExceptionType.SNACK, message)
 

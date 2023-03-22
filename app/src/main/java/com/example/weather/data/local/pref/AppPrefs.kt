@@ -26,12 +26,11 @@ class AppPrefs @Inject constructor(
     }
 
     override fun getLastCity(): String {
-        return sharedPreferences.getString(LAST_CITY_TAG, null) ?: DEFAULT_CITY_NAME
+        return sharedPreferences.getString(LAST_CITY_TAG, "") ?: ""
     }
 
     companion object {
         private const val FIRST_RUN_TAG = "first_run"
         private const val LAST_CITY_TAG = "country"
-        private const val DEFAULT_CITY_NAME = "Hanoi"
     }
 }

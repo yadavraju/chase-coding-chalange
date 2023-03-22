@@ -1,11 +1,11 @@
 package com.example.weather.data
 
+import androidx.compose.ui.text.intl.Locale
 import com.example.weather.data.local.pref.PrefsHelper
 import com.example.weather.data.model.CurrentWeather
-import com.example.weather.data.model.Daily
-import com.example.weather.data.model.Hourly
 import com.example.weather.data.remote.api.WeatherApi
 import com.example.weather.domain.repository.WeatherRepository
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -23,17 +23,11 @@ class WeatherRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getHourlyWeather(lat: Double, lon: Double): Flow<List<Hourly>> {
-        return weatherApi.getHourlyWeather(lat = lat, long = lon, appId = Constants.OpenWeather.YEK_IPA)
-            .map { response ->
-                response.hourly ?: emptyList()
-            }
-    }
-
-    override fun getDailyWeather(lat: Double, lon: Double): Flow<List<Daily>> {
-        return weatherApi.getHourlyWeather(lat = lat, long = lon, appId = Constants.OpenWeather.YEK_IPA)
-            .map { response ->
-                response.daily ?: emptyList()
-            }
-    }
+    override fun getCurrentWeatherByLocation(latLng: LatLng): Flow<CurrentWeather> =
+        weatherApi.getCurrentWeatherByLocation(
+            latitude = latLng.latitude,
+            longitude = latLng.longitude,
+            lang = Locale.current.language,
+            appId = Constants.OpenWeather.YEK_IPA,
+        )
 }

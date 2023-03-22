@@ -17,22 +17,11 @@ interface WeatherApi {
     ): Flow<CurrentWeather>
 
     @GET("weather")
-    fun getHourlyWeather(
-        @Query("lat") lat: Double,
-        @Query("lon") long: Double,
-        @Query("lang") lang: String = "en",
+    fun getCurrentWeatherByLocation(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
         @Query("units") units: String = "metric",
-        @Query("exclude") exclude: String = "minutely,daily",
-        @Query("appid") appId: String
-    ): Flow<OneCallResponse>
-
-    @GET("weather")
-    fun getDailyWeather(
-        @Query("lat") lat: Double,
-        @Query("lon") long: Double,
         @Query("lang") lang: String = "en",
-        @Query("units") units: String = "metric",
-        @Query("exclude") exclude: String = "minutely,hourly",
-        @Query("appid") appId: String
-    ): Flow<OneCallResponse>
+        @Query("appid") appId: String,
+    ): Flow<CurrentWeather>
 }

@@ -26,7 +26,7 @@ class RetrofitBuilder @Inject constructor(
     private var logEnable: Boolean = BuildConfig.DEBUG
     private var isSupportAuthorization = false
     private var authenticator: Authenticator? = null
-    private var baseUrl: String = "https://api.openweathermap.org/data/2.5/"
+    private var baseUrl: String = Constants.OpenWeather.ESAB_LRU
 
     /**
      * Customize time out

@@ -1,48 +1,25 @@
 package com.example.weather.presentation.ui.home
 
-import androidx.lifecycle.viewModelScope
+import com.example.weather.domain.annotation.Action
 import com.example.weather.domain.exception.BaseException
+import com.example.weather.domain.model.Dialog
+import com.example.weather.domain.usecase.weather.GetCurrentLocationUseCase
 import com.example.weather.domain.usecase.weather.GetCurrentWeatherByCityUseCase
-import com.example.weather.domain.usecase.weather.GetHourlyWeatherUseCase
+import com.example.weather.domain.usecase.weather.GetCurrentWeatherByLocationUseCase
 import com.example.weather.domain.usecase.weather.GetLastCityUseCase
 import com.example.weather.presentation.base.BaseViewModel
 import com.example.weather.presentation.base.ViewState
 import com.example.weather.presentation.base.toBaseException
 import com.example.weather.presentation.model.CurrentWeatherMapper
 import com.example.weather.presentation.model.CurrentWeatherViewDataModel
-import com.example.weather.presentation.model.HourlyWeatherMapper
-import com.example.weather.presentation.model.HourlyWeatherViewDataModel
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-
-enum class WeatherIndex(private val index: Int) {
-    Today(0), Tomorrow(1);
-
-    fun value(): Int = index
-
-    companion object {
-        fun from(index: Int): WeatherIndex {
-            return if (index == 0) Today else Tomorrow
-        }
-    }
-}
-
-sealed interface WeatherState {
-    val weatherIndex: WeatherIndex
-    val weathers: List<HourlyWeatherViewDataModel>
-
-    data class Today(
-        override val weatherIndex: WeatherIndex = WeatherIndex.Today,
-        override val weathers: List<HourlyWeatherViewDataModel> = emptyList(),
-    ) : WeatherState
-
-    data class Tomorrow(
-        override val weatherIndex: WeatherIndex = WeatherIndex.Tomorrow,
-        override val weathers: List<HourlyWeatherViewDataModel> = emptyList(),
-    ) : WeatherState
-}
 
 sealed interface SearchState {
     val enabled: Boolean
@@ -63,41 +40,38 @@ data class HomeViewState(
     override val isLoading: Boolean = false,
     override val exception: BaseException? = null,
     val currentWeather: CurrentWeatherViewDataModel? = null,
-    val weatherState: WeatherState = WeatherState.Today(),
-    val searchState: SearchState = SearchState.Closed()
+    val searchState: SearchState = SearchState.Closed(),
+    val isRequestPermission: Boolean = false,
 ) : ViewState(isLoading, exception)
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val getCurrentWeatherByCityUseCase: GetCurrentWeatherByCityUseCase,
+    private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+    private val getCurrentWeatherByLocationUseCase: GetCurrentWeatherByLocationUseCase,
     private val weatherMapper: CurrentWeatherMapper,
-    private val getLastCityUseCase: GetLastCityUseCase,
-    private val getHourlyWeatherUseCase: GetHourlyWeatherUseCase,
-    private val hourlyWeatherMapper: HourlyWeatherMapper
+    private val getLastCityUseCase: GetLastCityUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(HomeViewState(isLoading = true))
     override val state: StateFlow<HomeViewState>
         get() = _state
 
-    val coordinate = MutableStateFlow(Pair(0.0, 0.0))
-
-    private val todayState = MutableStateFlow(WeatherState.Today())
-    private val tomorrowState = MutableStateFlow(WeatherState.Tomorrow())
-
     init {
-        viewModelScope.launch {
-            getLastCityUseCase.invoke()
-                .collect { city ->
+        safeLunch {
+            getLastCityUseCase.invoke().collect { city ->
+                if (city.isBlank()) {
+                    _state.update { it.copy(isRequestPermission = true) }
+                } else {
                     getWeather(city)
                 }
+            }
         }
     }
 
     fun getWeather(city: String) {
-        _state.update { HomeViewState(isLoading = true) }
-
-        viewModelScope.launch {
+        showLoading()
+        safeLunch {
             getCurrentWeatherByCityUseCase.invoke(GetCurrentWeatherByCityUseCase.Params(city))
                 .catch { throwable ->
                     _state.update {
@@ -107,21 +81,53 @@ class WeatherViewModel @Inject constructor(
                         )
                     }
                 }
-                .map { weather ->
-                    coordinate.update {
-                        it.copy(
-                            first = weather.coord.lat,
-                            second = weather.coord.long
-                        )
-                    }
-                    getHourlyWeathers(weather.coord.lat, weather.coord.long)
-                    weatherMapper.mapperToViewDataModel(weather)
-                }
+                .map { weather -> weatherMapper.mapperToViewDataModel(weather) }
                 .collect { weather ->
                     _state.update {
                         it.copy(isLoading = false, currentWeather = weather)
                     }
                 }
+        }
+    }
+
+    fun getCurrentLocation() {
+        safeLunch {
+            showLoading()
+            getCurrentLocationUseCase().collect {
+                getWeatherByLatLang(it)
+            }
+        }
+    }
+
+
+    private fun getWeatherByLatLang(latLang: LatLng) = safeLunch {
+        getCurrentWeatherByLocationUseCase.invoke(GetCurrentWeatherByLocationUseCase.Params(latLang))
+            .catch { throwable ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        exception = throwable.toBaseException()
+                    )
+                }
+            }
+            .map { weather -> weatherMapper.mapperToViewDataModel(weather) }
+            .collect { weather ->
+                _state.update {
+                    it.copy(isLoading = false, currentWeather = weather)
+                }
+            }
+
+    }
+
+    private fun showLoading() {
+        _state.update {
+            it.copy(isLoading = true)
+        }
+    }
+
+    override fun hideLoading() {
+        _state.update {
+            it.copy(isLoading = false)
         }
     }
 
@@ -147,35 +153,30 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Change hourly weather today or tomorrow
-     */
-    fun weatherIndexChanged(index: WeatherIndex) {
-        _state.update { it.copy(weatherState = if (index == WeatherIndex.Today) todayState.value else tomorrowState.value) }
+    fun permissionIsNotGranted() {
+        val error = BaseException.DialogException(
+            code = -1, dialog = Dialog(
+                title = "Error with Permission",
+                message = "Permission is not granted! Please grant the permission to continue to using app!",
+                positiveMessage = "Open Setting",
+                negativeMessage = "Cancel",
+                positiveAction = Action.PERMISSION,
+            )
+        )
+        showError(error)
     }
 
-    private fun getHourlyWeathers(lat: Double, long: Double) {
-        viewModelScope.launch {
-            getHourlyWeatherUseCase.invoke(GetHourlyWeatherUseCase.Params(lat, long))
-                .catch { throwable ->
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            exception = throwable.toBaseException()
-                        )
-                    }
-                }
-                .map { response ->
-                    Pair(
-                        response.today.map { hourlyWeatherMapper.mapperToViewDataModel(it) },
-                        response.tomorrow.map { hourlyWeatherMapper.mapperToViewDataModel(it) }
-                    )
-                }
-                .collect { pair ->
-                    todayState.update { WeatherState.Today(weathers = pair.first) }
-                    tomorrowState.update { WeatherState.Tomorrow(weathers = pair.second) }
-                    _state.update { it.copy(weatherState = todayState.value) }
-                }
+    override fun showError(error: BaseException) {
+        if (_state.value.exception == null) {
+            _state.update {
+                it.copy(isLoading = false, exception = error)
+            }
+        }
+    }
+
+    fun cleanEvent() {
+        _state.update {
+            it.copy(isRequestPermission = false)
         }
     }
 }

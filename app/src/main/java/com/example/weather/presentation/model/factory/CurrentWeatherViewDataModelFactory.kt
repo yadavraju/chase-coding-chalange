@@ -4,8 +4,8 @@ import com.example.weather.presentation.model.CurrentWeatherViewDataModel
 
 fun createCurrentWeather() = CurrentWeatherViewDataModel(
     currentTime = "Sunday, 28 November",
-    city = "HANOI",
-    country = "VIETNAM",
+    city = "USA",
+    country = "Emeryville",
     currentTemp = "24",
     humidity = "39%",
     wind = "6 km/h",

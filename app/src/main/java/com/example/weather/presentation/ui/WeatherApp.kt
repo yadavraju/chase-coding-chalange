@@ -17,6 +17,7 @@ fun WeatherApp(appState: WeatherAppState = rememberWeatherAppState()) {
     ) {
         composable(Screen.Home.route) {
             HomeScreen(
+                appState = appState,
                 viewModel = hiltViewModel(),
                 hamburgerNavigationClicked = {
                     appState.navigateToSevenDays(0.0f, 0.0f)

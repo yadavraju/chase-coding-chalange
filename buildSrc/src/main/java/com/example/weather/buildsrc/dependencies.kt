@@ -14,6 +14,7 @@ object Libs {
         const val pager = "com.google.accompanist:accompanist-pager:$version"
         const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$version"
         const val systemUi = "com.google.accompanist:accompanist-systemuicontroller:$version"
+        const val permission = "com.google.accompanist:accompanist-permissions:0.27.0"
     }
 
     object Kotlin {
@@ -90,9 +91,7 @@ object Libs {
             const val ui = "androidx.compose.ui:ui:$version"
             const val material = "androidx.compose.material:material:$version"
             const val materialIconsExtended = "androidx.compose.material:material-icons-extended:$version"
-
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
-
             const val hilt = "androidx.hilt:hilt-navigation-compose:$hiltCompose"
         }
 

@@ -1,5 +1,7 @@
 package com.example.weather.presentation.ui.home
 
+import android.Manifest
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -20,6 +22,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -35,24 +38,63 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.weather.R
+import com.example.weather.domain.annotation.Action
 import com.example.weather.presentation.base.ExceptionHandleView
 import com.example.weather.presentation.model.CurrentWeatherViewDataModel
 import com.example.weather.presentation.model.factory.createCurrentWeather
+import com.example.weather.presentation.ui.WeatherAppState
 import com.example.weather.presentation.ui.custom.BackgroundImage
 import com.example.weather.presentation.ui.theme.WeatherTheme
 import com.example.weather.presentation.ui.theme.White60
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(
     viewModel: WeatherViewModel = viewModel(),
-    hamburgerNavigationClicked: (() -> Unit)? = null
+    hamburgerNavigationClicked: (() -> Unit)? = null,
+    appState: WeatherAppState,
 ) {
     val viewState by viewModel.state.collectAsState()
     val scaffoldState = rememberScaffoldState()
     val requestFocus = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val context: Context = LocalContext.current
+
+    val locationPermissionState = rememberMultiplePermissionsState(
+        listOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+        )
+    ) { permissions ->
+        when {
+            permissions.all { it.value } -> viewModel.getCurrentLocation()
+            else -> viewModel.permissionIsNotGranted()
+        }
+    }
+
+    LaunchedEffect(viewState) {
+        val requestPermission = viewState.isRequestPermission
+        when {
+            requestPermission -> {
+                when {
+                    locationPermissionState.allPermissionsGranted -> {
+                        viewModel.getCurrentLocation()
+                    }
+                    locationPermissionState.shouldShowRationale -> {
+                        viewModel.permissionIsNotGranted()
+                    }
+                    else -> {
+                        locationPermissionState.launchMultiplePermissionRequest()
+                    }
+                }
+            }
+            else -> return@LaunchedEffect
+        }
+        viewModel.cleanEvent()
+    }
 
     HomeScreenContent(
         modifier = Modifier
@@ -72,11 +114,9 @@ fun HomeScreen(
         focusRequest = requestFocus,
         keyboardController = keyboardController,
         actionSearch = {
-//            coroutineScope.launch {
-//                tomorrowLazyListState.scrollToItem(0, 0)
-//            }
             viewModel.getWeather(viewState.searchState.query)
-        }
+        },
+        openPermissionSetting = { appState.openAppSetting(context) }
     )
 }
 
@@ -92,7 +132,8 @@ fun HomeScreenContent(
     openSearchView: (() -> Unit)? = null,
     focusRequest: FocusRequester = remember { FocusRequester() },
     keyboardController: SoftwareKeyboardController? = null,
-    actionSearch: (() -> Unit)? = null
+    actionSearch: (() -> Unit)? = null,
+    openPermissionSetting: (() -> Unit)? = null
 ) {
     val drawableId =
         if (isSystemInDarkTheme()) R.drawable.background_night else R.drawable.background
@@ -127,7 +168,12 @@ fun HomeScreenContent(
 
                 ExceptionHandleView(
                     state = homeViewState,
-                    snackBarHostState = scaffoldState.snackbarHostState
+                    snackBarHostState = scaffoldState.snackbarHostState,
+                    positiveAction = { action, _ ->
+                        if (action == Action.PERMISSION) {
+                            openPermissionSetting?.invoke()
+                        }
+                    }
                 ) {
                     if (homeViewState.currentWeather != null) {
                         CurrentWeatherContent(
