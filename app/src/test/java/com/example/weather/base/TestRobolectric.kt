@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
+// Not used right now but can be used in future
 @RunWith(RobolectricTestRunner::class)
 @Config(
     manifest = "AndroidManifest.xml",

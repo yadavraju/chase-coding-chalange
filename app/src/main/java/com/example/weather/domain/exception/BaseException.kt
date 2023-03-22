@@ -5,6 +5,7 @@ import com.example.weather.domain.model.Dialog
 import com.example.weather.domain.model.Redirect
 import com.example.weather.domain.model.Tag
 
+// These exception handle code I have written long time ago putting all of those here too
 sealed class BaseException(
     open val code: Int,
     @ExceptionType val type: Int,

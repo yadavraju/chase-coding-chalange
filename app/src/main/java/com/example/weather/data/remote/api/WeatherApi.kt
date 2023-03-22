@@ -1,5 +1,6 @@
 package com.example.weather.data.remote.api
 
+import com.example.weather.data.Constants
 import com.example.weather.data.model.CurrentWeather
 import com.example.weather.data.remote.response.OneCallResponse
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,7 @@ interface WeatherApi {
         @Query("q") city: String,
         @Query("units") units: String = "metric",
         @Query("lang") lang: String = "en",
-        @Query("appid") appId: String
+        @Query("appid") appId: String = Constants.OpenWeather.YEK_IPA
     ): Flow<CurrentWeather>
 
     @GET("weather")
@@ -22,6 +23,6 @@ interface WeatherApi {
         @Query("lon") longitude: Double,
         @Query("units") units: String = "metric",
         @Query("lang") lang: String = "en",
-        @Query("appid") appId: String,
+        @Query("appid") appId: String = Constants.OpenWeather.YEK_IPA,
     ): Flow<CurrentWeather>
 }

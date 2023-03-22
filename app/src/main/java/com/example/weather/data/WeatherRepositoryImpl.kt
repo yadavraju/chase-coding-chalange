@@ -16,7 +16,7 @@ class WeatherRepositoryImpl @Inject constructor(
 ) : WeatherRepository {
 
     override fun getCurrentWeather(city: String): Flow<CurrentWeather> {
-        return weatherApi.getCurrentWeather(city = city, appId = Constants.OpenWeather.YEK_IPA)
+        return weatherApi.getCurrentWeather(city = city)
             .map { weather ->
                 prefsHelper.saveLastCity(city)
                 weather
@@ -27,7 +27,6 @@ class WeatherRepositoryImpl @Inject constructor(
         weatherApi.getCurrentWeatherByLocation(
             latitude = latLng.latitude,
             longitude = latLng.longitude,
-            lang = Locale.current.language,
-            appId = Constants.OpenWeather.YEK_IPA,
+            lang = Locale.current.language
         )
 }

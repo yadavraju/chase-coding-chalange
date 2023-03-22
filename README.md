@@ -2,8 +2,8 @@
 
 Weather app is an example for show current weather from World Cities, built with Jetpack Compose.
 The goal of the sample is to showcase the current UI capabilities of Compose.
-Design pattern: Clean Architecture & MVVM
-Added unit test for viewModel
+-Design pattern: Clean Architecture & MVVM
+-Added unit test for viewModel, usecase, repository Api class
 
 ### Data-Flow
 
