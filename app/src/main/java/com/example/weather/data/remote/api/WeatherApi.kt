@@ -18,6 +18,14 @@ interface WeatherApi {
     ): Flow<CurrentWeather>
 
     @GET("weather")
+    suspend fun getCurrentWeather1(
+        @Query("q") city: String,
+        @Query("units") units: String = "metric",
+        @Query("lang") lang: String = "en",
+        @Query("appid") appId: String = Constants.OpenWeather.YEK_IPA
+    ): CurrentWeather
+
+    @GET("weather")
     fun getCurrentWeatherByLocation(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
