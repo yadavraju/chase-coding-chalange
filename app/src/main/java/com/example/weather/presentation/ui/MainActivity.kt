@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // This app draws behind the system bars, so we want to handle fitting system windows
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        // WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             WeatherTheme {
@@ -25,9 +25,11 @@ class MainActivity : ComponentActivity() {
                     val systemUiController = rememberSystemUiController()
                     val darkIcons = MaterialTheme.colors.isLight
                     SideEffect {
-                        systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
+                        systemUiController.setSystemBarsColor(
+                            Color.Transparent,
+                            darkIcons = darkIcons
+                        )
                     }
-
                     WeatherApp()
                 }
             }

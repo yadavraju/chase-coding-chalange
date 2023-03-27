@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.weather.presentation.ui.day.SevenDaysScreen
 import com.example.weather.presentation.ui.home.HomeScreen
+import com.example.weather.presentation.ui.newslist.NewsListScreen
 
 @Composable
 fun WeatherApp(appState: WeatherAppState = rememberWeatherAppState()) {
@@ -16,13 +17,14 @@ fun WeatherApp(appState: WeatherAppState = rememberWeatherAppState()) {
         startDestination = Screen.Home.route
     ) {
         composable(Screen.Home.route) {
-            HomeScreen(
-                appState = appState,
-                viewModel = hiltViewModel(),
-                hamburgerNavigationClicked = {
-                    appState.navigateToSevenDays(0.0f, 0.0f)
-                },
-            )
+            NewsListScreen()
+//            HomeScreen(
+//                appState = appState,
+//                viewModel = hiltViewModel(),
+//                hamburgerNavigationClicked = {
+//                    appState.navigateToSevenDays(0.0f, 0.0f)
+//                },
+//            )
         }
         // This just added for demonstration of compose navigate nothing to do with this code challenge
         composable(Screen.NextScreenNavigation.route,

@@ -44,6 +44,7 @@ import com.example.weather.presentation.model.CurrentWeatherViewDataModel
 import com.example.weather.presentation.model.factory.createCurrentWeather
 import com.example.weather.presentation.ui.WeatherAppState
 import com.example.weather.presentation.ui.custom.BackgroundImage
+import com.example.weather.presentation.ui.custom.CommonToolbarScreen
 import com.example.weather.presentation.ui.theme.WeatherTheme
 import com.example.weather.presentation.ui.theme.White60
 import com.google.accompanist.insets.statusBarsPadding
@@ -547,35 +548,9 @@ private fun HomeTopAppBar(
             focusRequest.requestFocus()
         }
     } else {
-        TopAppBar(
-            title = {
-                Text(
-                    text = stringResource(R.string.app_name),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 4.dp, top = 12.dp),
-                    style = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.onPrimary),
-                    textAlign = TextAlign.Center
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = { hamburgerNavigationClicked?.invoke() }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_menu_drawer),
-                        contentDescription = stringResource(R.string.menu),
-                        tint = MaterialTheme.colors.primary
-                    )
-                }
-            },
-            actions = {
-                IconButton(onClick = { openSearchView?.invoke() }) {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = stringResource(R.string.search_city),
-                        tint = MaterialTheme.colors.primary
-                    )
-                }
-            },
+        CommonToolbarScreen(
+            hamburgerNavigationClicked = hamburgerNavigationClicked,
+            openSearchView = openSearchView,
             backgroundColor = Color.Transparent,
             elevation = elevation
         )
