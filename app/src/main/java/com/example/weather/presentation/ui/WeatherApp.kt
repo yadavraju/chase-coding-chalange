@@ -17,14 +17,14 @@ fun WeatherApp(appState: WeatherAppState = rememberWeatherAppState()) {
         startDestination = Screen.Home.route
     ) {
         composable(Screen.Home.route) {
-            NewsListScreen()
-//            HomeScreen(
-//                appState = appState,
-//                viewModel = hiltViewModel(),
-//                hamburgerNavigationClicked = {
-//                    appState.navigateToSevenDays(0.0f, 0.0f)
-//                },
-//            )
+//            NewsListScreen()
+            HomeScreen(
+                appState = appState,
+                viewModel = hiltViewModel(),
+                hamburgerNavigationClicked = {
+                    appState.navigateToSevenDays(0.0f, 0.0f)
+                },
+            )
         }
         // This just added for demonstration of compose navigate nothing to do with this code challenge
         composable(Screen.NextScreenNavigation.route,
