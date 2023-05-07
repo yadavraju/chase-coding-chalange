@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "505425457327",
+    "project_id": "streaming-app-2b012",
+    "storage_bucket": "streaming-app-2b012.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505425457327:android:83d147abe5bc998591645a",
+        "android_client_info": {
+          "package_name": "com.relayapp.live"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505425457327-6p3a3d9923bkp711o3ho1m2uobevt0a9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.relayapp.live",
+            "certificate_hash": "4da14812fd0d9d78b273d40b30bb6658f4965623"
+          }
+        },
+        {
+          "client_id": "505425457327-m4coqu5es7dl970e8chomfi2bhfqb27m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbY4MviBkb0BTX2gZpxqYNPBUdGy9loyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505425457327-m4coqu5es7dl970e8chomfi2bhfqb27m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
