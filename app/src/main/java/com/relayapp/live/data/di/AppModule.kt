@@ -107,9 +107,11 @@ class AppModule {
         auth: FirebaseAuth,
         oneTapClient: SignInClient,
         signInClient: GoogleSignInClient,
+        prefsHelper: PrefsHelper
     ): ProfileRepository = ProfileRepositoryImpl(
         auth = auth,
         oneTapClient = oneTapClient,
-        signInClient = signInClient
+        signInClient = signInClient,
+        prefsHelper = prefsHelper
     )
 }

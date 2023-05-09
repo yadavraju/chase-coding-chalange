@@ -3,6 +3,7 @@ package com.relayapp.live.data
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
+import com.relayapp.live.data.local.pref.PrefsHelper
 import com.relayapp.live.domain.model.Response
 import com.relayapp.live.domain.repository.ProfileRepository
 import com.relayapp.live.domain.repository.RevokeAccessResponse
@@ -16,6 +17,7 @@ class ProfileRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private var oneTapClient: SignInClient,
     private var signInClient: GoogleSignInClient,
+    private var prefsHelper: PrefsHelper
 ) : ProfileRepository {
     override val displayName = auth.currentUser?.displayName.toString()
     override val photoUrl = auth.currentUser?.photoUrl.toString()
@@ -24,6 +26,7 @@ class ProfileRepositoryImpl @Inject constructor(
         return try {
             oneTapClient.signOut().await()
             auth.signOut()
+            prefsHelper.clearEverything()
             Response.Success(true)
         } catch (e: Exception) {
             Response.Failure(e)
@@ -38,6 +41,7 @@ class ProfileRepositoryImpl @Inject constructor(
                 auth.signOut()
                 delete().await()
             }
+            prefsHelper.clearEverything()
             Response.Success(true)
         } catch (e: Exception) {
             Response.Failure(e)

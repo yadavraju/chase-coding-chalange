@@ -25,16 +25,17 @@ class DashboardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RelayTheme() {
-                SetupSystemUi(rememberSystemUiController(), TradeUpColors.primary)
-                ProfileScreen(
-                    navigateToAuthScreen = {
-                        prefsHelper.clearEverything() {
-                            navigateToDashBoard()
-                        }
-                    }
-                )
-            }
+            MainRoot() {}
+//            RelayTheme() {
+//                SetupSystemUi(rememberSystemUiController(), TradeUpColors.primary)
+//                ProfileScreen(
+//                    navigateToAuthScreen = {
+//                        prefsHelper.clearEverything() {
+//                            navigateToDashBoard()
+//                        }
+//                    }
+//                )
+//            }
         }
     }
 
