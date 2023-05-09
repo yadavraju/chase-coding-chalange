@@ -4,6 +4,7 @@ import androidx.annotation.IntDef
 import com.relayapp.live.domain.annotation.ExceptionType.Companion.ALERT
 import com.relayapp.live.domain.annotation.ExceptionType.Companion.DIALOG
 import com.relayapp.live.domain.annotation.ExceptionType.Companion.INLINE
+import com.relayapp.live.domain.annotation.ExceptionType.Companion.ON_PAGE
 import com.relayapp.live.domain.annotation.ExceptionType.Companion.REDIRECT
 import com.relayapp.live.domain.annotation.ExceptionType.Companion.SNACK
 import com.relayapp.live.domain.annotation.ExceptionType.Companion.TOAST
@@ -18,7 +19,7 @@ import com.relayapp.live.domain.annotation.ExceptionType.Companion.TOAST
  * @param REDIRECT is type of auto-redirect with view, action or finished, ...
  * @param ON_PAGE is type of show message on center screen, maybe show retry button
  */
-@IntDef(SNACK, TOAST, INLINE, ALERT, DIALOG, REDIRECT)
+@IntDef(SNACK, TOAST, INLINE, ALERT, DIALOG, REDIRECT, ON_PAGE)
 annotation class ExceptionType {
     companion object {
         const val SNACK = 1

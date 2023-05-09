@@ -6,7 +6,7 @@ import com.relayapp.live.data.model.CurrentWeather
 import com.relayapp.live.domain.asFlow
 import com.relayapp.live.domain.exception.BaseException
 import com.relayapp.live.domain.repository.WeatherRepository
-import com.relayapp.live.domain.usecase.UseCase
+import com.relayapp.live.domain.usecase.base.UseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow

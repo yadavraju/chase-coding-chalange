@@ -10,9 +10,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.relayapp.live.core.Constants.AUTH_SCREEN
 import com.relayapp.live.core.Constants.PROFILE_SCREEN
+import com.relayapp.live.core.Constants.REFERRAL_SCREEN
 
 sealed class Screen(val route: String) {
     object Home : Screen(AUTH_SCREEN)
+    object ReferralScreen : Screen(REFERRAL_SCREEN)
     object ProfileScreen : Screen(PROFILE_SCREEN)
     object NextScreenNavigation : Screen("sevenDays/{lat}-{long}") {
         fun createRoute(lat: Float, long: Float) = "sevenDays/$lat-$long"
@@ -46,6 +48,8 @@ class WeatherAppState(val controller: NavHostController) {
     }
 
     fun navigateToProfileScreen() = controller.navigate(Screen.ProfileScreen.route)
+
+    fun navigateToReferralScreen() = controller.navigate(Screen.ReferralScreen.route)
 
     fun navigateToAuthScreen() = controller.navigate(Screen.Home.route)
 }

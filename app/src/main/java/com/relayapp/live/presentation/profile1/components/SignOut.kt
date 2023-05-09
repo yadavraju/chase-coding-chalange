@@ -3,7 +3,7 @@ package com.relayapp.live.presentation.profile1.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.relayapp.live.components.ProgressBar
+import com.relayapp.live.components.LoadingView
 import com.relayapp.live.domain.model.Response
 import com.relayapp.live.presentation.profile1.ProfileViewModel
 
@@ -13,7 +13,7 @@ fun SignOut(
     navigateToAuthScreen: (signedOut: Boolean) -> Unit,
 ) {
     when (val signOutResponse = viewModel.signOutResponse) {
-        is Response.Loading -> ProgressBar()
+        is Response.Loading -> LoadingView()
         is Response.Success -> signOutResponse.data?.let { signedOut ->
             LaunchedEffect(signedOut) {
                 navigateToAuthScreen(signedOut)

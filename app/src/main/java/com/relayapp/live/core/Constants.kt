@@ -23,8 +23,9 @@ object Constants {
     const val REVOKE_ACCESS = "Revoke Access"
 
     //Screens
-    const val AUTH_SCREEN = "Authentication"
-    const val PROFILE_SCREEN = "Profile"
+    const val AUTH_SCREEN = "AUTH_SCREEN"
+    const val PROFILE_SCREEN = "PROFILE_SCREEN"
+    const val REFERRAL_SCREEN = "REFERRAL_SCREEN"
 
     //Messages
     const val REVOKE_ACCESS_MESSAGE = "You need to re-authenticate before revoking the access."

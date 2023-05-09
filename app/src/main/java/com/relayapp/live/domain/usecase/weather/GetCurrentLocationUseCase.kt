@@ -1,7 +1,7 @@
 package com.relayapp.live.domain.usecase.weather
 
 import com.relayapp.live.domain.repository.AddressRepository
-import com.relayapp.live.domain.usecase.UseCase
+import com.relayapp.live.domain.usecase.base.UseCase
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

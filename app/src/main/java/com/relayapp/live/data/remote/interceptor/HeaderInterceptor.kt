@@ -1,22 +1,27 @@
 package com.relayapp.live.data.remote.interceptor
 
-import android.os.Build
-import com.relayapp.live.BuildConfig
+import com.relayapp.live.data.local.pref.AppPrefs
+import com.relayapp.live.data.local.pref.AppPrefs.Companion.EMPTY_STRING
+import com.relayapp.live.data.local.pref.PrefsHelper
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class HeaderInterceptor @Inject constructor() : Interceptor {
+class HeaderInterceptor @Inject constructor(private val prefsHelper: PrefsHelper) : Interceptor {
+
+    private var headers: MutableMap<String, String> = mutableMapOf()
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        var request = chain.request()
-
-        request = request.newBuilder()
-            .addHeader("Content-Type", "application/json")
-            .addHeader("Accept", "application/json")
-            .addHeader("OS", "Android-${Build.VERSION.SDK_INT}")
-            .addHeader("Version", BuildConfig.VERSION_NAME)
-            .build()
-        return chain.proceed(request)
+        val token = prefsHelper.read(AppPrefs.API_KEY, "")
+        var builder = chain.request().newBuilder()
+        headers["Accept"] = "application/json"
+        headers["Content-Type"] = "application/json"
+        if (EMPTY_STRING != token) {
+            headers["Authorization"] = "Bearer $token"
+        }
+        headers.forEach { entry ->
+            builder = builder.addHeader(entry.key, entry.value)
+        }
+        return chain.proceed(builder.build())
     }
 }

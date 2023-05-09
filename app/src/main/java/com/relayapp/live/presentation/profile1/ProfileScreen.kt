@@ -26,8 +26,7 @@ fun ProfileScreen(
         topBar = {
             ProfileTopBar(
                 signOut = {
-                    viewModel.revokeAccess()
-                    //viewModel.signOut()
+                    viewModel.signOut()
                 },
                 revokeAccess = {
                     viewModel.revokeAccess()

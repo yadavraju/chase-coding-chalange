@@ -22,6 +22,6 @@ object Constants {
         // properties file get through BuildConfig variable
         // for This coding purpose only I am putting here
         const val YEK_IPA = "3cf14acd1832384b1f183935ac1d58cf"
-        const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+        const val BASE_URL = "https://streaming-backend-api.herokuapp.com/"//"https://api.openweathermap.org/data/2.5/"
     }
 }

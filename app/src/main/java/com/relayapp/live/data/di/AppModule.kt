@@ -16,6 +16,8 @@ import com.relayapp.live.core.Constants.SIGN_IN_REQUEST
 import com.relayapp.live.core.Constants.SIGN_UP_REQUEST
 import com.relayapp.live.data.AuthRepositoryImpl
 import com.relayapp.live.data.ProfileRepositoryImpl
+import com.relayapp.live.data.local.pref.PrefsHelper
+import com.relayapp.live.data.remote.api.AuthApi
 import com.relayapp.live.domain.repository.AuthRepository
 import com.relayapp.live.domain.repository.ProfileRepository
 import dagger.Module
@@ -88,12 +90,16 @@ class AppModule {
         @Named(SIGN_IN_REQUEST)
         signInRequest: BeginSignInRequest,
         @Named(SIGN_UP_REQUEST)
-        signUpRequest: BeginSignInRequest
+        signUpRequest: BeginSignInRequest,
+        authApi: AuthApi,
+        prefsHelper: PrefsHelper
     ): AuthRepository = AuthRepositoryImpl(
         auth = auth,
         oneTapClient = oneTapClient,
         signInRequest = signInRequest,
-        signUpRequest = signUpRequest
+        signUpRequest = signUpRequest,
+        authApi = authApi,
+        prefsHelper = prefsHelper
     )
 
     @Provides

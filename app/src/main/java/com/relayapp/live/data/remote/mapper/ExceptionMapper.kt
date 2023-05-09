@@ -20,7 +20,7 @@ class ExceptionMapper @Inject constructor(
                 )
 
             RetrofitException.Kind.HTTP ->
-                BaseException.OnPageException(
+                BaseException.AlertException(
                     code = throwable.getResponse()?.code() ?: -1,
                     message = String.format(
                         context.getString(R.string.url_invalid),
@@ -29,10 +29,15 @@ class ExceptionMapper @Inject constructor(
                 )
 
             RetrofitException.Kind.HTTP_422_WITH_DATA ->
-                BaseException.OnPageException(
+                BaseException.AlertException(
                     code = throwable.getErrorData()?.code ?: -1,
                     message = throwable.getErrorData()?.message?.let {
-                        "${String.format(context.getString(R.string.error_code_title), throwable.getErrorData()?.code)}\n $it"
+                        "${
+                            String.format(
+                                context.getString(R.string.error_code_title),
+                                throwable.getErrorData()?.code
+                            )
+                        }\n $it"
                     } ?: String.format(
                         context.getString(R.string.url_invalid),
                         throwable.getRetrofit()?.baseUrl() ?: ""

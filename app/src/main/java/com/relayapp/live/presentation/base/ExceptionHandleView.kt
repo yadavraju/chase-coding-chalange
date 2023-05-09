@@ -23,11 +23,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.relayapp.live.components.LoadingView
 import com.relayapp.live.domain.exception.BaseException
 import com.relayapp.live.domain.model.Dialog
 import com.relayapp.live.domain.model.Redirect
 import com.relayapp.live.domain.model.Tag
-import com.relayapp.live.presentation.ui.custom.FullScreenLoading
 
 @Composable
 fun ExceptionHandleView(
@@ -42,7 +42,7 @@ fun ExceptionHandleView(
     content: @Composable (ViewState) -> Unit
 ) {
     when {
-        state.isLoading -> FullScreenLoading()
+        state.isLoading -> LoadingView()
         state.exception != null -> ShowError(
             modifier = modifier,
             state = state,
@@ -148,7 +148,14 @@ fun ShowAlertDialog(
     AlertDialog(
         modifier = Modifier.padding(20.dp),
         onDismissRequest = { onDismiss.invoke() },
-        title = dialog.title?.let { { Text(text = dialog.title, color = MaterialTheme.colors.onSecondary) } },
+        title = dialog.title?.let {
+            {
+                Text(
+                    text = dialog.title,
+                    color = MaterialTheme.colors.onSecondary
+                )
+            }
+        },
         text = {
             Text(
                 text = dialog.message,

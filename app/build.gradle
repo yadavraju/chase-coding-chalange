@@ -61,50 +61,14 @@ android {
 
 dependencies {
 
-//    implementation Libs.Coroutines.android
-//    implementation Libs.AndroidX.appcompat
-//    implementation Libs.AndroidX.coreKtx
-//    implementation Libs.AndroidX.palette
-//    implementation Libs.AndroidX.Activity.activityCompose
-//    implementation Libs.AndroidX.Constraint.constraintLayoutCompose
-//
-//    implementation Libs.AndroidX.Compose.foundation
-//    implementation Libs.AndroidX.Compose.material
-//    implementation Libs.AndroidX.Compose.materialIconsExtended
-//    implementation Libs.AndroidX.Compose.tooling
-//    implementation Libs.AndroidX.Compose.hilt
-//
-//    implementation Libs.AndroidX.Lifecycle.runtime
-//    implementation Libs.AndroidX.Lifecycle.viewmodel
-//    implementation Libs.AndroidX.Lifecycle.viewModelCompose
-//    implementation Libs.AndroidX.Navigation.navigation
-//    implementation Libs.AndroidX.Window.window
-//
-//    implementation(Libs.Hilt.android)
-//    kapt(Libs.Hilt.compiler)
-//
-
-//
     implementation 'com.jakewharton.timber:timber:5.0.1'
-//
     implementation 'io.coil-kt:coil-compose:2.3.0'
-//
-//    // implementation Libs.OkHttp.okhttp
-//    implementation Libs.Retrofit.core
-//    implementation Libs.Retrofit.converter
-//    implementation Libs.OkHttp.logging
-//
-//    implementation Libs.AndroidX.Room.runtime
-//    implementation Libs.AndroidX.Room.ktx
-//    kapt Libs.AndroidX.Room.compiler
-//
-//    // These dependencies added little lately after functionality code was done to write unit test
-//    // Todo due to my laziness i keeping version name directly here sorry for that
-//    // Google play services
+
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
 
     implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'com.google.android.material:material:1.9.0'
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")

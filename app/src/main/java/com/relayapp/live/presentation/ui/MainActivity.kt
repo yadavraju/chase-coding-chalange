@@ -9,14 +9,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,25 +47,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             RelayTheme() {
                 SetupSystemUi(rememberSystemUiController(), TradeUpColors.primary)
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = TradeUpColors.background
-                ) {
-                    WeatherApp()
-                }
-
-//                SignInPage()
-//                ProvideWindowInsets {
-//                    val systemUiController = rememberSystemUiController()
-//                    val darkIcons = MaterialTheme.colors.isLight
-//                    SideEffect {
-//                        systemUiController.setSystemBarsColor(
-//                            Color.Transparent,
-//                            darkIcons = darkIcons
-//                        )
-//                    }
-//                    WeatherApp()
-//                }
+                RelayApp()
             }
         }
     }
@@ -105,7 +84,6 @@ class MainActivity : ComponentActivity() {
                                 lifecycleScope.launch {
                                     googleAuthUiClient.signOut()
                                 }
-                                Log.e("Raju", "going to else condition" + result)
                             }
                         }
                     )

@@ -7,5 +7,9 @@ interface PrefsHelper {
 
     fun saveLastCity(cityName: String)
 
+    fun <T> read(key: String, defaultValue: T): T
+
+    fun <T> write(key: String, value: T)
+
     fun getLastCity(): String
 }

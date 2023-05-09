@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.relayapp.live.domain.model.Response
+import com.relayapp.live.domain.repository.AuthRepository
 import com.relayapp.live.domain.repository.ProfileRepository
 import com.relayapp.live.domain.repository.RevokeAccessResponse
 import com.relayapp.live.domain.repository.SignOutResponse
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val repo: ProfileRepository
 ) : ViewModel() {
+
     val displayName get() = repo.displayName
     val photoUrl get() = repo.photoUrl
 

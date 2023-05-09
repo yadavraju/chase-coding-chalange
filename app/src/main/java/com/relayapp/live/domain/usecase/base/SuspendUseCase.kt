@@ -1,4 +1,4 @@
-package com.relayapp.live.domain.usecase
+package com.relayapp.live.domain.usecase.base
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

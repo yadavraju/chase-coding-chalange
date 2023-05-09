@@ -33,6 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -52,11 +54,11 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(
-    viewModel: WeatherViewModel = viewModel(),
+    viewModel: WeatherViewModel = hiltViewModel(),
     hamburgerNavigationClicked: (() -> Unit)? = null,
     appState: WeatherAppState,
 ) {
-    val viewState by viewModel.state.collectAsState()
+    val viewState by viewModel.state.collectAsStateWithLifecycle()
     val scaffoldState = rememberScaffoldState()
     val requestFocus = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
