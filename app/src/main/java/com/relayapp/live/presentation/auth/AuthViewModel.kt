@@ -51,8 +51,6 @@ class AuthViewModel @Inject constructor(
 
     var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
         private set
-//    var signInWithGoogleResponse by mutableStateOf<AuthRequest>(Response.Success(false))
-//        private set
 
     fun oneTapSignIn() = viewModelScope.launch {
         oneTapSignInResponse = Response.Loading

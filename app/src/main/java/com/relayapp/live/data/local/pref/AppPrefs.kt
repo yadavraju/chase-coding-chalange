@@ -50,6 +50,17 @@ class AppPrefs @Inject constructor(
         }
     }
 
+    override fun clear(key: String): Unit = prefs.edit {
+        remove(key)
+    }
+
+    override fun clearEverything(callBack: () -> Unit) {
+        prefs.edit {
+            clear().commit()
+            callBack.invoke()
+        }
+    }
+
     companion object {
         private const val FIRST_RUN_TAG = "first_run"
         private const val LAST_CITY_TAG = "country"

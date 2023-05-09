@@ -1,5 +1,6 @@
 package com.relayapp.live.presentation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -22,15 +23,21 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.auth.api.identity.Identity
+import com.relayapp.live.core.extesion.getActivity
+import com.relayapp.live.core.extesion.launchActivity
 import com.relayapp.live.core.jetframework.SetupSystemUi
+import com.relayapp.live.data.local.pref.AppPrefs.Companion.USER_ID
+import com.relayapp.live.data.local.pref.PrefsHelper
 import com.relayapp.live.presentation.googlesignin.GoogleAuthUiClient
 import com.relayapp.live.presentation.googlesignin.SignInScreen
 import com.relayapp.live.presentation.googlesignin.SignInViewModel
 import com.relayapp.live.presentation.profile.ProfileScreen
+import com.relayapp.live.presentation.ui.dashboard.DashboardActivity
 import com.relayapp.live.presentation.ui.theme.RelayTheme
 import com.relayapp.live.presentation.ui.theme.TradeUpColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,14 +49,27 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    @Inject
+    lateinit var prefsHelper: PrefsHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            RelayTheme() {
-                SetupSystemUi(rememberSystemUiController(), TradeUpColors.primary)
-                RelayApp()
+        if (prefsHelper.read(USER_ID, "").isNotEmpty()) {
+            navigateToDashBoard()
+        } else {
+            setContent {
+                RelayTheme() {
+                    SetupSystemUi(rememberSystemUiController(), TradeUpColors.primary)
+                    RelayApp() {
+                        navigateToDashBoard()
+                    }
+                }
             }
         }
+    }
+
+    private fun navigateToDashBoard() {
+        this.getActivity<MainActivity>()?.launchActivity<DashboardActivity> { finish() }
     }
 
     @Composable

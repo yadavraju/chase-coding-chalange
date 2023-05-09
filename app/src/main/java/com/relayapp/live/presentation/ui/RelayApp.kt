@@ -5,23 +5,30 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.relayapp.live.core.extesion.getActivity
+import com.relayapp.live.core.extesion.launchActivity
 import com.relayapp.live.domain.annotation.Action
 import com.relayapp.live.presentation.auth.AuthScreen
 import com.relayapp.live.presentation.auth.AuthViewModel
 import com.relayapp.live.presentation.auth.ReferralScreen
 import com.relayapp.live.presentation.base.ExceptionHandleView
 import com.relayapp.live.presentation.profile1.ProfileScreen
+import com.relayapp.live.presentation.ui.dashboard.DashboardActivity
 import com.relayapp.live.presentation.ui.day.SevenDaysScreen
 import com.relayapp.live.presentation.ui.home.CurrentWeatherContent
 
 @Composable
-fun RelayApp(appState: WeatherAppState = rememberWeatherAppState()) {
+fun RelayApp(
+    appState: WeatherAppState = rememberWeatherAppState(),
+    navigateToDashBoard: () -> Unit = {}
+) {
     NavHost(
         navController = appState.controller,
         startDestination = Screen.Home.route
@@ -40,7 +47,7 @@ fun RelayApp(appState: WeatherAppState = rememberWeatherAppState()) {
             } else if (viewModel.isUserAuthenticated || viewState.authResponse?.newuser == false) {
                 Log.e("Raju", "navigateToProfileScreen")
                 LaunchedEffect(key1 = Unit) {
-                    appState.navigateToProfileScreen()
+                    navigateToDashBoard()
                 }
             } else {
                 AuthScreen(

@@ -12,4 +12,8 @@ interface PrefsHelper {
     fun <T> write(key: String, value: T)
 
     fun getLastCity(): String
+
+    fun clear(key: String): Unit
+
+    fun clearEverything(callBack: () -> Unit = {})
 }
