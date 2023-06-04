@@ -13,7 +13,6 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
 import com.relayapp.live.core.jetframework.SetupSystemUi
 import com.relayapp.live.presentation.navigation.AppNavigationProvider
-import com.relayapp.live.presentation.profile1.NavGraphs
 import com.relayapp.live.presentation.ui.theme.RelayTheme
 import com.relayapp.live.presentation.ui.theme.TradeUpColors
 

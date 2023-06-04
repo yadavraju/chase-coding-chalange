@@ -26,4 +26,7 @@
     <string name="error_message_permission_not_granted">Permission is not granted!\nPlease grant the permission to continue to using app!</string>
     <string name="open_setting">Open setting</string>
     <string name="web_client_id">505425457327-m4coqu5es7dl970e8chomfi2bhfqb27m.apps.googleusercontent.com</string>
+    <string name="public_tab">Public</string>
+    <string name="favorite_tab">Favorite</string>
+    <string name="premium_tab">Premium</string>
 </resources>
