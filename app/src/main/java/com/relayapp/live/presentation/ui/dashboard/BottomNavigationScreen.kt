@@ -25,6 +25,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.relayapp.live.presentation.navigation.NavigationProvider
 import com.relayapp.live.presentation.profile1.ProfileScreen
+import com.relayapp.live.presentation.ui.dashboard.coinscreen.CoinsScreen
+import com.relayapp.live.presentation.ui.dashboard.serchscreen.ChatScreen
+import com.relayapp.live.presentation.ui.dashboard.serchscreen.SearchScreen
 import com.relayapp.live.presentation.ui.theme.TradeUpColors
 import com.relayapp.live.presentation.ui.theme.selectedBottomItemColor
 import com.relayapp.live.presentation.ui.theme.unselectedBottomItemColor
@@ -52,30 +55,27 @@ fun BottomNavigationScreen(navigator: NavigationProvider) {
                         modifier = modifier,
                         navigator = navigator,
                     )
-                    BottomBarItem.SEARCH -> HomeEventScreen(
+
+                    BottomBarItem.SEARCH -> SearchScreen(
                         modifier = modifier,
                         navigator = navigator
                     )
+
                     BottomBarItem.COINS -> CoinsScreen(
                         modifier = modifier,
                         navigator = navigator,
                     )
-                    BottomBarItem.CHAT -> ProfileScreen()
+
+                    BottomBarItem.CHAT -> ChatScreen(
+                        modifier = modifier,
+                        navigator = navigator,
+                    )
+
                     BottomBarItem.PROFILE -> ProfileScreen()
                 }
             }
         )
     }
-}
-
-@Composable
-private fun HomeEventScreen(modifier: Modifier, navigator: NavigationProvider) {
-    Text(text = "home")
-}
-
-@Composable
-private fun CoinsScreen(modifier: Modifier, navigator: NavigationProvider) {
-    Text(text = "home")
 }
 
 @Composable

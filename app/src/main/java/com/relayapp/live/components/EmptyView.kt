@@ -30,10 +30,11 @@ fun EmptyView(modifier: Modifier = Modifier, screenType: String? = null) {
             text = if (screenType == SEARCH_SCREEN) {
                 "Search Event by their title, \n keyword, category etc."
             } else {
-                ""
+                "No data found"
             },
             style = MaterialTheme.typography.h3,
             textAlign = TextAlign.Center
         )
     }
 }
+

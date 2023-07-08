@@ -29,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import com.relayapp.live.R
 import com.relayapp.live.components.EmptyView
 import com.relayapp.live.components.MainScreenTopBar
-import com.relayapp.live.presentation.model.list
 import com.relayapp.live.presentation.navigation.NavigationProvider
 import com.relayapp.live.presentation.ui.theme.TradeUpColors
 import com.relayapp.live.presentation.ui.theme.TradeUpTypography
@@ -80,9 +79,11 @@ private fun LiveTabScreen(
                             EpisodeTabs.PUBLIC_TAB.value -> {
                                 selectedIndex.value = EpisodeTabs.PUBLIC_TAB.ordinal
                             }
+
                             EpisodeTabs.FAVORITE_TAB.value -> {
                                 selectedIndex.value = EpisodeTabs.FAVORITE_TAB.ordinal
                             }
+
                             EpisodeTabs.PREMIUM_TAB.value -> {
                                 selectedIndex.value = EpisodeTabs.PREMIUM_TAB.ordinal
                             }
@@ -99,17 +100,23 @@ private fun LiveTabScreen(
         }
         when (selectedIndex.value) {
             EpisodeTabs.PUBLIC_TAB.ordinal -> {
-                PokemonGrid(
+                RoomGridView(
                     onPokemonClicked = { _ -> },
-                    pokemonList = list,
                     isLoading = false,
+                    roomType = "getAllPublicRooms"
                 )
             }
+
             EpisodeTabs.FAVORITE_TAB.ordinal -> {
                 EmptyView()
             }
+
             EpisodeTabs.PREMIUM_TAB.ordinal -> {
-                EmptyView()
+                RoomGridView(
+                    onPokemonClicked = { _ -> },
+                    isLoading = false,
+                    roomType = "getAllPremiumRooms"
+                )
             }
         }
     }

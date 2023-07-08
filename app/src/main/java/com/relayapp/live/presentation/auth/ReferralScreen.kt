@@ -58,7 +58,7 @@ fun ReferralScreenRoot(
 ) {
     val referralValue = rememberSaveable { mutableStateOf("") }
     val isValidFilled by remember { mutableStateOf(true) }
-    val isValidate by derivedStateOf { referralValue.value.isNotBlank() }
+    val isValidate by remember { derivedStateOf { referralValue.value.isNotBlank() } }
     val keyboardController = LocalTextInputService.current
 
     Column(

@@ -1,8 +1,10 @@
 package com.relayapp.live.data.model.authresponse
 
-
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class AuthResponse(
     @SerializedName("authtoken")
     val authtoken: String,
@@ -14,8 +16,9 @@ data class AuthResponse(
     val newuser: Boolean,
     @SerializedName("success")
     val success: Boolean
-)
+) : Parcelable
 
+@Parcelize
 data class Data(
     @SerializedName("accountDisabled")
     val accountDisabled: Boolean,
@@ -38,11 +41,11 @@ data class Data(
     @SerializedName("firstName")
     val firstName: String,
     @SerializedName("followers")
-    val followers: List<Any>,
+    val followers: List<String>,
     @SerializedName("followersCount")
     val followersCount: Int,
     @SerializedName("following")
-    val following: List<Any>,
+    val following: List<String>,
     @SerializedName("followingCount")
     val followingCount: Int,
     @SerializedName("fwId")
@@ -54,13 +57,13 @@ data class Data(
     @SerializedName("_id")
     val id: String,
     @SerializedName("interests")
-    val interests: List<Any>,
+    val interests: List<String>,
     @SerializedName("isUserAccountDormant")
     val isUserAccountDormant: Boolean,
     @SerializedName("isUserAccountPremium")
     val isUserAccountPremium: Boolean,
     @SerializedName("joinedClubs")
-    val joinedClubs: List<Any>,
+    val joinedClubs: List<String>,
     @SerializedName("lastName")
     val lastName: String,
     @SerializedName("loginType")
@@ -78,7 +81,7 @@ data class Data(
     @SerializedName("phoneNumber")
     val phoneNumber: String,
     @SerializedName("premiumEndDate")
-    val premiumEndDate: Any,
+    val premiumEndDate: String?,
     @SerializedName("profilePhoto")
     val profilePhoto: String,
     @SerializedName("referralCode")
@@ -90,9 +93,9 @@ data class Data(
     @SerializedName("roomUid")
     val roomUid: String,
     @SerializedName("shopId")
-    val shopId: Any,
+    val shopId: String?,
     @SerializedName("socialMedia")
-    val socialMedia: List<Any>,
+    val socialMedia: List<String>,
     @SerializedName("stageName")
     val stageName: String,
     @SerializedName("stripeAccountId")
@@ -115,4 +118,4 @@ data class Data(
     val wasReferredBySomeone: Boolean,
     @SerializedName("wasReferredBySomeoneReferralCode")
     val wasReferredBySomeoneReferralCode: String
-)
+) : Parcelable

@@ -15,9 +15,11 @@ import com.relayapp.live.data.local.pref.AppPrefs.Companion.USER_ID
 import com.relayapp.live.data.local.pref.PrefsHelper
 import com.relayapp.live.data.model.authresponse.AuthResponse
 import com.relayapp.live.data.model.authresponse.ReferralResponse
-import com.relayapp.live.data.remote.api.AuthApi
+import com.relayapp.live.data.model.coinresponse.CoinResponse
+import com.relayapp.live.data.model.liveresponse.RoomDataResponse
+import com.relayapp.live.data.remote.api.ApiService
 import com.relayapp.live.domain.model.Response
-import com.relayapp.live.domain.repository.AuthRepository
+import com.relayapp.live.domain.repository.ApiRepository
 import com.relayapp.live.domain.repository.AuthRequest
 import com.relayapp.live.domain.repository.OneTapSignInResponse
 import com.relayapp.live.domain.repository.ReferralRequest
@@ -29,16 +31,16 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-class AuthRepositoryImpl @Inject constructor(
+class ApiRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private var oneTapClient: SignInClient,
     @Named(SIGN_IN_REQUEST)
     private var signInRequest: BeginSignInRequest,
     @Named(SIGN_UP_REQUEST)
     private var signUpRequest: BeginSignInRequest,
-    private val authApi: AuthApi,
+    private val apiService: ApiService,
     private val prefsHelper: PrefsHelper
-) : AuthRepository {
+) : ApiRepository {
 
     override val currentUser = auth.currentUser
 
@@ -86,7 +88,7 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     override fun doSignInSignUpApiCall(request: AuthRequest): Flow<AuthResponse> {
-        return authApi.signSignup(request).map { value ->
+        return apiService.signSignup(request).map { value ->
             prefsHelper.write(API_KEY, value.bearerToken)
             prefsHelper.write(USER_ID, value.data.id)
             value
@@ -95,12 +97,15 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     override fun referralApiCall(request: ReferralRequest): Flow<ReferralResponse> {
-        return authApi.addReferral(request)
+        return apiService.addReferral(request)
     }
-}
 
-fun FirebaseUser.toUser() = mapOf(
-    DISPLAY_NAME to displayName,
-    EMAIL to email,
-    PHOTO_URL to photoUrl?.toString()
-)
+    override fun getRoomData(
+        roomName: String,
+        pageNumber: Int
+    ): Flow<RoomDataResponse> {
+        return apiService.getRoomData(roomName, pageNumber)
+    }
+
+    override fun getCoinData(): Flow<CoinResponse> = apiService.getCoinData()
+}

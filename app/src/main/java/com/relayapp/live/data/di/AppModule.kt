@@ -14,11 +14,11 @@ import com.google.firebase.ktx.Firebase
 import com.relayapp.live.R
 import com.relayapp.live.core.Constants.SIGN_IN_REQUEST
 import com.relayapp.live.core.Constants.SIGN_UP_REQUEST
-import com.relayapp.live.data.AuthRepositoryImpl
+import com.relayapp.live.data.ApiRepositoryImpl
 import com.relayapp.live.data.ProfileRepositoryImpl
 import com.relayapp.live.data.local.pref.PrefsHelper
-import com.relayapp.live.data.remote.api.AuthApi
-import com.relayapp.live.domain.repository.AuthRepository
+import com.relayapp.live.data.remote.api.ApiService
+import com.relayapp.live.domain.repository.ApiRepository
 import com.relayapp.live.domain.repository.ProfileRepository
 import dagger.Module
 import dagger.Provides
@@ -91,14 +91,14 @@ class AppModule {
         signInRequest: BeginSignInRequest,
         @Named(SIGN_UP_REQUEST)
         signUpRequest: BeginSignInRequest,
-        authApi: AuthApi,
+        apiService: ApiService,
         prefsHelper: PrefsHelper
-    ): AuthRepository = AuthRepositoryImpl(
+    ): ApiRepository = ApiRepositoryImpl(
         auth = auth,
         oneTapClient = oneTapClient,
         signInRequest = signInRequest,
         signUpRequest = signUpRequest,
-        authApi = authApi,
+        apiService = apiService,
         prefsHelper = prefsHelper
     )
 

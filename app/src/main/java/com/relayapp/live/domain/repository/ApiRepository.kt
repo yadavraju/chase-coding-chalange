@@ -5,6 +5,8 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.relayapp.live.data.model.authresponse.AuthResponse
 import com.relayapp.live.data.model.authresponse.ReferralResponse
+import com.relayapp.live.data.model.coinresponse.CoinResponse
+import com.relayapp.live.data.model.liveresponse.RoomDataResponse
 import com.relayapp.live.domain.model.Response
 import kotlinx.coroutines.flow.Flow
 
@@ -27,7 +29,7 @@ data class ReferralRequest(
     val wasReferredBySomeoneReferralCode: String = ""
 )
 
-interface AuthRepository {
+interface ApiRepository {
     val isUserAuthenticatedInFirebase: Boolean
 
     val currentUser: FirebaseUser?
@@ -41,4 +43,11 @@ interface AuthRepository {
     fun doSignInSignUpApiCall(request: AuthRequest): Flow<AuthResponse>
 
     fun referralApiCall(request: ReferralRequest): Flow<ReferralResponse>
+
+    fun getRoomData(
+        roomName: String,
+        pageNumber: Int = 1
+    ): Flow<RoomDataResponse>
+
+    fun getCoinData(): Flow<CoinResponse>
 }

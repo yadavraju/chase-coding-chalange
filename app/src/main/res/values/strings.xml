@@ -29,4 +29,7 @@
     <string name="public_tab">Public</string>
     <string name="favorite_tab">Favorite</string>
     <string name="premium_tab">Premium</string>
+    <string name="toolbar_coin_title">Coin</string>
+    <string name="toolbar_search_title">Search</string>
+    <string name="toolbar_chat_title">Chat</string>
 </resources>

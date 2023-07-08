@@ -1,6 +1,6 @@
 package com.relayapp.live.data.di
 
-import com.relayapp.live.data.remote.api.AuthApi
+import com.relayapp.live.data.remote.api.ApiService
 import com.relayapp.live.data.remote.api.WeatherApi
 import com.relayapp.live.data.remote.builder.RetrofitBuilder
 import com.relayapp.live.data.remote.interceptor.HeaderInterceptor
@@ -30,7 +30,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
+    fun provideAuthApi(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 
 
 }

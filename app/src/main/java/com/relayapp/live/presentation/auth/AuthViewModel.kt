@@ -12,7 +12,7 @@ import com.relayapp.live.data.model.authresponse.AuthResponse
 import com.relayapp.live.data.model.authresponse.ReferralResponse
 import com.relayapp.live.domain.exception.BaseException
 import com.relayapp.live.domain.model.Response
-import com.relayapp.live.domain.repository.AuthRepository
+import com.relayapp.live.domain.repository.ApiRepository
 import com.relayapp.live.domain.repository.AuthRequest
 import com.relayapp.live.domain.repository.OneTapSignInResponse
 import com.relayapp.live.domain.usecase.auth.LoginSignUpUseCase
@@ -37,7 +37,7 @@ data class AuthViewSate(
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repo: AuthRepository,
+    private val repo: ApiRepository,
     private val oneTapClient: SignInClient,
     private val authUseCase: LoginSignUpUseCase,
     private val referralUseCase: ReferralUseCase,
@@ -67,10 +67,8 @@ class AuthViewModel @Inject constructor(
 
     private fun doLoginAndSignupApiCall(request: AuthRequest?) = safeLunch {
         showLoading()
-        Log.e("Raju", "doLoginAndSignupApiCall" + request)
         authUseCase.invoke(LoginSignUpUseCase.Params(request))
             .catch { throwable ->
-                Log.e("Raju", "Signed in throwable" + throwable)
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -79,7 +77,6 @@ class AuthViewModel @Inject constructor(
                 }
             }
             .collect { authResponse ->
-                Log.e("Raju", "Signed in sucess" + authResponse)
                 _state.update { it.copy(isLoading = false, authResponse = authResponse) }
             }
     }

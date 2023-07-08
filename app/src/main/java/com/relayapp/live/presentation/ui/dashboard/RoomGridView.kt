@@ -13,21 +13,54 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.relayapp.live.components.EmptyView
 import com.relayapp.live.components.LineLoadingItem
-import com.relayapp.live.presentation.model.Pokemon
+import com.relayapp.live.data.model.liveresponse.RoomResult
+import com.relayapp.live.presentation.base.ExceptionHandleView
+import com.relayapp.live.presentation.ui.dashboard.viewmodel.LiveDataViewModel
 
 @Composable
-internal fun PokemonGrid(
+internal fun RoomGridView(
+    modifier: Modifier = Modifier,
     onPokemonClicked: (name: String) -> Unit,
-    pokemonList: List<Pokemon>,
     isLoading: Boolean,
     loadMoreItems: () -> Unit = {},
+    roomType: String,
+    viewModel: LiveDataViewModel = hiltViewModel()
+) {
+    val viewState by viewModel.state.collectAsStateWithLifecycle()
+    val scaffoldState = rememberScaffoldState()
+    ExceptionHandleView(
+        state = viewState,
+        snackBarHostState = scaffoldState.snackbarHostState,
+        positiveAction = { _, _ -> }
+    ) {
+        if (viewState.response?.results?.isNotEmpty() == true) {
+            RoomRootView(modifier, onPokemonClicked, viewState.response?.results!!, isLoading)
+        } else {
+            EmptyView()
+        }
+    }
+    LaunchedEffect(key1 = viewModel, block = {
+        viewModel.getRoomData(roomType)
+    })
+}
+
+@Composable
+internal fun RoomRootView(
     modifier: Modifier = Modifier,
+    onPokemonClicked: (name: String) -> Unit,
+    roomList: List<RoomResult>,
+    isLoading: Boolean,
+    loadMoreItems: () -> Unit = {},
 ) {
     val infiniteTransition = rememberInfiniteTransition()
     val alpha by infiniteTransition.animateFloat(
@@ -55,10 +88,10 @@ internal fun PokemonGrid(
             contentPadding = PaddingValues(20.dp),
             modifier = modifier,
         ) {
-            items(pokemonList, key = { it.name }) { pokemon ->
+            items(roomList, key = { it.id }) { room ->
                 VideoItem(
-                    onClick = { onPokemonClicked(pokemon.name) },
-                    pokemon = pokemon,
+                    onClick = {  },
+                    roomResult = room,
                     modifier = Modifier.fillMaxWidth()
                 )
             }

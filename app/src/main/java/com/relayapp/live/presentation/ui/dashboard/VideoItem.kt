@@ -29,11 +29,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.relayapp.live.R
-import com.relayapp.live.presentation.model.Pokemon
+import com.relayapp.live.data.model.liveresponse.RoomResult
 import com.relayapp.live.presentation.ui.theme.Black1
 import com.relayapp.live.presentation.ui.theme.Blue300
 import com.relayapp.live.presentation.ui.theme.Blue500
@@ -41,7 +40,6 @@ import com.relayapp.live.presentation.ui.theme.Green300
 import com.relayapp.live.presentation.ui.theme.Green500
 import com.relayapp.live.presentation.ui.theme.Red300
 import com.relayapp.live.presentation.ui.theme.Red500
-import com.relayapp.live.presentation.ui.theme.Red700
 import com.relayapp.live.presentation.ui.theme.TradeUpTypography
 import com.relayapp.live.presentation.ui.theme.Yellow300
 import com.relayapp.live.presentation.ui.theme.Yellow500
@@ -49,7 +47,7 @@ import com.relayapp.live.presentation.ui.theme.Yellow500
 @Composable
 internal fun VideoItem(
     onClick: () -> Unit,
-    pokemon: Pokemon,
+    roomResult: RoomResult,
     modifier: Modifier = Modifier
 ) {
 
@@ -89,11 +87,10 @@ internal fun VideoItem(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://storage.googleapis.com/streaming-app-2b012.appspot.com/profilePictures/Abhijeet.jpg%201684042316342?GoogleAccessId=firebase-adminsdk-vvxtu%40streaming-app-2b012.iam.gserviceaccount.com&Expires=32509490400&Signature=ETk8xIZCLrLbotdKODjXuq0YtW%2FwElBYmoo8D6z6KdxEAJb3SHowfde0kiowwlU%2FPYxBfzIUS595HzB1Kz4m8SDoILsUv1w7brqVSYI7p3r5tX1K75LW%2FkmVZyiCJ531uSRLPXpdAIAFa%2BFSoRTlNmc2q4ZYWPyDylrZUgbbAfG0gbyA86%2BlBdiRXerfKBv2yPO7yaKEyocav7vN6NFcmQdd%2BaHrYWhB3hE56bW%2B5fxyEw3UoPwqEaezEa2tK6C5y3pop8URPd07KCxoYMzjN13hoy0s3Igswjc%2FltDuLaGFcdxhO5kF0y%2FZpgc2G7cN93FIvA6tPynpmoL9I2QtAg%3D%3D")
-                    .error(R.drawable.profile_circle)
+                    .data(roomResult.streamerId.profilePicture)
                     .crossfade(true)
                     .build(),
-                contentDescription = pokemon.name,
+                contentDescription = roomResult.streamerId.stageName,
                 contentScale = ContentScale.Crop,
                 colorFilter = ColorFilter.tint(Black1.copy(.5f), BlendMode.Darken),
                 modifier = modifier
@@ -117,7 +114,7 @@ internal fun VideoItem(
                     )
                 }
                 Text(
-                    text = "Abik",
+                    text = roomResult.streamerId.stageName,
                     color = Color.White,
                     style = TradeUpTypography.subtitle2.copy(fontWeight = FontWeight.Medium),
                 )
