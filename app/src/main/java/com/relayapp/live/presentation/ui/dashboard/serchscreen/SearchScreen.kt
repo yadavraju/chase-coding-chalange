@@ -32,6 +32,7 @@ fun SearchScreen(
             positiveAction = { _, _ -> }
         ) {
             RoomGridView(
+                modifier = modifier,
                 onPokemonClicked = { _ -> },
                 isLoading = false,
                 roomType = "getAllPublicRooms"

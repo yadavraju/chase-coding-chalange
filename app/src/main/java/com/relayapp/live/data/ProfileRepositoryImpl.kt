@@ -21,6 +21,7 @@ class ProfileRepositoryImpl @Inject constructor(
 ) : ProfileRepository {
     override val displayName = auth.currentUser?.displayName.toString()
     override val photoUrl = auth.currentUser?.photoUrl.toString()
+    override val email = auth.currentUser?.email.toString()
 
     override suspend fun signOut(): SignOutResponse {
         return try {

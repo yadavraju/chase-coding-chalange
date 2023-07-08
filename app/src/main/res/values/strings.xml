@@ -32,4 +32,9 @@
     <string name="toolbar_coin_title">Coin</string>
     <string name="toolbar_search_title">Search</string>
     <string name="toolbar_chat_title">Chat</string>
+    <string name="toolbar_profile_title">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="account_uppercase">ACCOUNT</string>
+    <string name="verified">Verified</string>
+    <string name="video_uppercase">VIDEO</string>
 </resources>

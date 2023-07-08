@@ -46,7 +46,6 @@ fun RootView(
         topBar = {
             if (isSearchScreen) {
                 SearchToolbar(
-                    modifier = modifier,
                     searchValue = remember { mutableStateOf("") }
                 )
             } else {
@@ -80,12 +79,11 @@ fun CommonToolbar(
 
 @Composable
 fun SearchToolbar(
-    modifier: Modifier = Modifier,
     searchValue: MutableState<String>,
 ) {
     val isValidFilled by remember { mutableStateOf(true) }
     CommonEditText(
-        modifier = modifier
+        modifier = Modifier
             .wrapContentHeight()
             .padding(start = 8.dp, end = 8.dp),
         error = isValidFilled,

@@ -1,4 +1,4 @@
-package com.relayapp.live.presentation.ui.dashboard.serchscreen
+package com.relayapp.live.presentation.ui.dashboard.chatscreen
 
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable

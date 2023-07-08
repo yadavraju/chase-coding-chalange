@@ -24,9 +24,9 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.relayapp.live.presentation.navigation.NavigationProvider
-import com.relayapp.live.presentation.profile1.ProfileScreen
 import com.relayapp.live.presentation.ui.dashboard.coinscreen.CoinsScreen
-import com.relayapp.live.presentation.ui.dashboard.serchscreen.ChatScreen
+import com.relayapp.live.presentation.ui.dashboard.profilescreen.ProfileScreen
+import com.relayapp.live.presentation.ui.dashboard.chatscreen.ChatScreen
 import com.relayapp.live.presentation.ui.dashboard.serchscreen.SearchScreen
 import com.relayapp.live.presentation.ui.theme.TradeUpColors
 import com.relayapp.live.presentation.ui.theme.selectedBottomItemColor

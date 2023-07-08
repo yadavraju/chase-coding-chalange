@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.relayapp.live.components.LoadingView
 import com.relayapp.live.domain.model.Response
-import com.relayapp.live.presentation.profile1.ProfileViewModel
+import com.relayapp.live.presentation.ui.dashboard.viewmodel.ProfileViewModel
 
 @Composable
 fun SignOut(

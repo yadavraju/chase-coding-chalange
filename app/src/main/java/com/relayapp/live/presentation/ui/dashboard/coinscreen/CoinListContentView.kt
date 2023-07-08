@@ -4,9 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,9 +18,10 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,8 +35,14 @@ import com.relayapp.live.components.IconScale
 import com.relayapp.live.components.TTIconScaled
 import com.relayapp.live.data.model.coinresponse.CoinData
 import com.relayapp.live.presentation.ui.dashboard.viewmodel.CoinViewSate
-import com.relayapp.live.presentation.ui.theme.TradeUpColors
-import com.relayapp.live.presentation.ui.theme.boarderColor
+import com.relayapp.live.presentation.ui.theme.Blue300
+import com.relayapp.live.presentation.ui.theme.Blue500
+import com.relayapp.live.presentation.ui.theme.Green300
+import com.relayapp.live.presentation.ui.theme.Green500
+import com.relayapp.live.presentation.ui.theme.Red300
+import com.relayapp.live.presentation.ui.theme.Red500
+import com.relayapp.live.presentation.ui.theme.Yellow300
+import com.relayapp.live.presentation.ui.theme.Yellow500
 import com.relayapp.live.presentation.ui.theme.yellow
 
 @Composable
@@ -79,12 +84,34 @@ fun CoinContentItemView(
     coinData: CoinData,
     onDetailClick: () -> Unit = {}
 ) {
+    val brush = remember {
+        Brush.linearGradient(
+            listOf(
+                listOf(
+                    Red300,
+                    Red500,
+                ),
+                listOf(
+                    Yellow300,
+                    Yellow500,
+                ),
+                listOf(
+                    Green300,
+                    Green500,
+                ),
+                listOf(
+                    Blue300,
+                    Blue500,
+                ),
+            ).random()
+        )
+    }
     Card(
         onClick = onDetailClick,
         modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.Transparent,
-        border = BorderStroke(1.dp, TradeUpColors.boarderColor),
+        border = BorderStroke(1.dp, brush),
         elevation = 0.dp
     ) {
         Row(

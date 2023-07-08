@@ -1,4 +1,4 @@
-package com.relayapp.live.presentation.profile1
+package com.relayapp.live.presentation.ui.dashboard.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +20,7 @@ class ProfileViewModel @Inject constructor(
 
     val displayName get() = repo.displayName
     val photoUrl get() = repo.photoUrl
+    val email get() = repo.email
 
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
         private set
